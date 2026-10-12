@@ -148,7 +148,7 @@ const TOP = (bank) => ({ group: top[bank], layer: live });
 
 // turntable
 const platter = T.round({ name: "stand.platter", ...E, F: VERT(0, 0), s0: PLINTH[1], s1: 0, r: PLATTER_R, tone: "mid", crease: "lo", details: { seams: [-2] } });
-const indexMark = `<path class="iso-line" data-tone="hi" d="M${PLATTER_R - 0.8} 0L${PLATTER_R - 12} 0"/><path class="iso-line" data-tone="lo" d="${Array.from({ length: 121 }, (_, j) => `${j ? "L" : "M"}${((PLATTER_R - 12) * Math.cos((j / 120) * Math.PI * 2)).toFixed(2)} ${((PLATTER_R - 12) * Math.sin((j / 120) * Math.PI * 2)).toFixed(2)}`).join("")}Z"/>`;
+const indexMark = `<path class="iso-line" data-tone="hi" d="M${PLATTER_R - 0.2} 0L${PLATTER_R - 12} 0"/><path class="iso-line" data-tone="lo" d="${Array.from({ length: 121 }, (_, j) => `${j ? "L" : "M"}${((PLATTER_R - 12) * Math.cos((j / 120) * Math.PI * 2)).toFixed(2)} ${((PLATTER_R - 12) * Math.sin((j / 120) * Math.PI * 2)).toFixed(2)}`).join("")}Z"/>`;
 T.plane({ part: platter, o: [0, 0, 0], u: [1, 0, 0], v: [0, 1, 0], svg: indexMark, fade: [0.02, 0.2] });
 
 // cradle rails on the platter, under the sump

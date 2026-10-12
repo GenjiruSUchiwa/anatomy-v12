@@ -235,6 +235,7 @@
 .v12-tip i { width: 7px; height: 7px; border-radius: 50%; background: var(--c); flex: none; }
 .v12-tip b { font-weight: 600; }
 .v12-tip span { color: var(--v12-muted); }
+.v12-app [hidden] { display: none !important; } /* a display rule never beats the hidden attribute */
 
 /* the view column on the right edge */
 .v12-views { position: absolute; z-index: 4; right: 40px; top: 50%; transform: translateY(-46%); display: flex; flex-direction: column; gap: 4px; padding: 8px; border-radius: 18px; }
@@ -347,6 +348,7 @@
   .v12-app[data-sheet="systems"] .v12-systems { display: flex; top: 108px; transform: none; max-height: calc(100dvh - 300px); }
   .v12-sheet-btn { display: inline-flex; flex-direction: column; gap: 6px; width: 84px; padding: 0 8px 0 0; font-size: 13px; color: var(--v12-text); }
   .v12-main { --v12-shift: -190px; }
+  .v12-dock { width: min(800px, calc(100vw - 80px)); } /* room for the systems button beside the slider */
 }
 @media (max-width: 1100px) {
   .v12-detail { right: 104px; width: 320px; }
@@ -354,7 +356,7 @@
   .v12-title { font-size: 36px; }
 }
 /* ── phones: the stage on top, the dock under it, every panel a bottom sheet ──── */
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .v12-app { height: 100dvh; min-height: 0; }
   .v12-head { left: 16px; top: 16px; }
   .v12-title { font-size: 26px; margin: 6px 0 2px; gap: 10px; }
@@ -374,12 +376,14 @@
   .v12-views hr, .v12-views [data-act="zoom-in"], .v12-views [data-act="zoom-out"] { display: none; }
   .v12-dock { left: 10px; right: 10px; bottom: 10px; transform: none; width: auto; flex-wrap: wrap; padding: 14px 14px 12px; gap: 12px 0; border-radius: 18px; }
   .v12-dock > * + * { border-left: 0; }
-  .v12-engine { order: 2; flex: 1; padding: 0; }
+  .v12-engine { order: 2; flex: 1 1 0; min-width: 196px; padding: 0; gap: 8px; }
+  .v12-engine > .v12-dock-head { display: none; }
   .v12-explode { order: 1; flex: 1 0 100%; padding: 0; }
-  .v12-reset { order: 4; width: 64px; padding: 0; font-size: 12px; }
-  .v12-sheet-btn { order: 3; width: 64px; padding: 0; font-size: 12px; }
-  .v12-readout { font-size: 11px; }
-  .v12-seg button { padding: 6px 8px; }
+  .v12-reset { order: 4; width: 44px; padding: 0; }
+  .v12-sheet-btn { order: 3; width: 44px; padding: 0; }
+  .v12-reset span, .v12-sheet-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; } /* icon only: the label stays the accessible name */
+  .v12-readout { font-size: 10.5px; white-space: normal; }
+  .v12-seg button { padding: 6px 7px; font-size: 12.5px; }
   .v12-foot { display: none; }
   .v12-detail, .v12-systems { left: 8px; right: 8px; bottom: 8px; top: auto !important; width: auto; max-height: 62dvh; transform: none !important; border-radius: 20px; padding: 22px 20px 16px; z-index: 7; box-shadow: var(--v12-shadow), 0 -8px 40px rgba(0, 0, 0, 0.18); }
   .v12-detail { display: none; }
@@ -388,11 +392,12 @@
   .v12-text { font-size: 15px; }
   .v12-search { left: 8px; right: 8px; top: 70px; width: auto; }
 }
-@media (max-width: 1279px) and (min-width: 761px) {
+@media (max-width: 1279px) and (min-width: 901px) {
   .v12-systems .v12-close { display: inline-flex; }
 }
 @media (min-width: 1280px) {
   .v12-systems .v12-close { display: none; }
+  .v12-dock { left: max(calc(50% - 360px), 356px); transform: none; } /* never over the systems card (40 + 300 + 16) */
 }
 @media (prefers-reduced-motion: reduce) {
   .v12-switch span, .v12-switch span::after { transition: none; }

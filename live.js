@@ -99,7 +99,7 @@ const controller = TURN.mount(stage, DATA.turn, {
       azimuth = target = drawnAz = turned.values.stand ?? azimuth;
       theta = drawnTheta = turned.values.theta ?? turned.values.crank ?? theta;
       // the runtime re-renders on its own (a resize) with the values we drew: only a different apart is news
-      if (turned.values.apart !== undefined && Math.abs(turned.values.apart - apartOf(apart.x)) > 1e-6) {
+      if (turned.values.apart !== undefined && Math.abs(turned.values.apart - apartOf(drawnApart)) > 1e-6) {
         apart.x = drawnApart = apartTarget = turned.values.apart * EXPLODE;
         apart.v = 0;
       }
@@ -172,16 +172,15 @@ let matFit = { s: 0.5, dx: 0, dy: 0 };
 const measureMat = () => {
   const r = stage.getBoundingClientRect();
   if (!r.width) return;
-  let x0 = r.left;
-  let x1 = r.right;
-  const mid = r.top + r.height / 2;
+  let x0 = Math.max(r.left, 8); // the stage may run past the screen edge (phone)
+  let x1 = Math.min(r.right, innerWidth - 8);
+  const y1 = Math.min(r.bottom, $(".v12-caption").getBoundingClientRect().top - 6);
   for (const el of $$(".v12-systems, .v12-detail, .v12-views")) {
     const b = el.getBoundingClientRect();
-    if (!b.width || b.width > innerWidth * 0.6 || b.top > mid || b.bottom < mid) continue; // phone sheets come and go: ignored
+    if (!b.width || b.width > innerWidth * 0.6 || b.top > y1 || b.bottom < r.top) continue; // phone sheets come and go: ignored
     if (b.left + b.width / 2 < r.left + r.width / 2) x0 = Math.max(x0, b.right + 16);
     else x1 = Math.min(x1, b.left - 16);
   }
-  const y1 = Math.min(r.bottom, $(".v12-caption").getBoundingClientRect().top - 6);
   const u = r.width / VW;
   const [fx0, fx1, fy0, fy1] = [(x0 - r.left) / u, (x1 - r.left) / u, 6 / u, (y1 - r.top) / u];
   const [bx0, by0, bx1, by1] = INV.box;
